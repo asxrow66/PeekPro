@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install xcodegen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build (unsigned)
+        run: |
+          xcodebuild \
+            -project PremiereProTimelineQuickLook.xcodeproj \
+            -scheme PremiereProTimelineQuickLook \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Archive build artifact
+        if: github.event_name == 'release'
+        run: |
+          BUILD_DIR=$(xcodebuild \
+            -project PremiereProTimelineQuickLook.xcodeproj \
+            -scheme PremiereProTimelineQuickLook \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -showBuildSettings | grep ' BUILT_PRODUCTS_DIR' | awk '{print $3}')
+          zip -r PeekPro.zip "$BUILD_DIR/PremiereProTimelineQuickLook.app"
+
+      - name: Upload release asset
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./PeekPro.zip
+          asset_name: PeekPro.zip
+          asset_content_type: application/zip

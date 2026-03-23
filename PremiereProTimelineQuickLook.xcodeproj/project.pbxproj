@@ -1,0 +1,446 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		133CD202A5A951B6161013EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA6D1C54D9199C4C2B9D4DF /* AppDelegate.swift */; };
+		236859E4D7558EE9A867B039 /* HTMLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A77635417F5DB1D8C140A /* HTMLGenerator.swift */; };
+		36A94C7542230CCB6888145E /* ProjectParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C57D5F5951844CD801A77 /* ProjectParser.swift */; };
+		5EAF70F9F159FB3EBC260697 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF6C6765C8730F45FC8C237 /* WebKit.framework */; };
+		7172A5D36DE02305AFC4A5D7 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C070922104600437656C17B /* PreviewViewController.swift */; };
+		8142081EE1941D5E9E327FFB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEF1C9288FDA246FE9FFC48 /* Models.swift */; };
+		FD2DEF163C4656C28809E8C1 /* PremiereQuickLookExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7067399E86FF7C42B95D2DDF /* PremiereQuickLookExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		80468CAC68BB1F5B58A2D02C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B10BE69A83A6C206BE4293A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2AC3F478FA64717850687190;
+			remoteInfo = PremiereQuickLookExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2B854F90489405FC58A4F32C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FD2DEF163C4656C28809E8C1 /* PremiereQuickLookExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4D64D22D63CE75ABC2D1AACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4DA6D1C54D9199C4C2B9D4DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6DEF1C9288FDA246FE9FFC48 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		7067399E86FF7C42B95D2DDF /* PremiereQuickLookExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PremiereQuickLookExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C070922104600437656C17B /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		AC96B68087C45D865339E3A2 /* PremiereProTimelineQuickLook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PremiereProTimelineQuickLook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAF6C6765C8730F45FC8C237 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		DA2C57D5F5951844CD801A77 /* ProjectParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParser.swift; sourceTree = "<group>"; };
+		F95A77635417F5DB1D8C140A /* HTMLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLGenerator.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B626E38FC54C35B55702234A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EAF70F9F159FB3EBC260697 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3565CE5970921009ED8B0DA8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC96B68087C45D865339E3A2 /* PremiereProTimelineQuickLook.app */,
+				7067399E86FF7C42B95D2DDF /* PremiereQuickLookExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		617AB05801F97B08C157165A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CAF6C6765C8730F45FC8C237 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		67C7C615F5F1E28E60FAA749 = {
+			isa = PBXGroup;
+			children = (
+				BDA74AEBC8BA4CA6B48C8636 /* PremiereQuickLookApp */,
+				DF586D1E9A235F4C11102B91 /* PremiereQuickLookExtension */,
+				617AB05801F97B08C157165A /* Frameworks */,
+				3565CE5970921009ED8B0DA8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDA74AEBC8BA4CA6B48C8636 /* PremiereQuickLookApp */ = {
+			isa = PBXGroup;
+			children = (
+				4DA6D1C54D9199C4C2B9D4DF /* AppDelegate.swift */,
+				4D64D22D63CE75ABC2D1AACF /* Info.plist */,
+			);
+			path = PremiereQuickLookApp;
+			sourceTree = "<group>";
+		};
+		DF586D1E9A235F4C11102B91 /* PremiereQuickLookExtension */ = {
+			isa = PBXGroup;
+			children = (
+				F95A77635417F5DB1D8C140A /* HTMLGenerator.swift */,
+				6DEF1C9288FDA246FE9FFC48 /* Models.swift */,
+				7C070922104600437656C17B /* PreviewViewController.swift */,
+				DA2C57D5F5951844CD801A77 /* ProjectParser.swift */,
+			);
+			path = PremiereQuickLookExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2AC3F478FA64717850687190 /* PremiereQuickLookExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EF161E645BA2DAF6B08BD87 /* Build configuration list for PBXNativeTarget "PremiereQuickLookExtension" */;
+			buildPhases = (
+				E4B31B072C89789A98CD6F85 /* Sources */,
+				B626E38FC54C35B55702234A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PremiereQuickLookExtension;
+			packageProductDependencies = (
+			);
+			productName = PremiereQuickLookExtension;
+			productReference = 7067399E86FF7C42B95D2DDF /* PremiereQuickLookExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8180ADD99BCA2A891CF8ABF0 /* PremiereProTimelineQuickLook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B028A80EFFD05EFB8E32F84 /* Build configuration list for PBXNativeTarget "PremiereProTimelineQuickLook" */;
+			buildPhases = (
+				A3DB75969F5FEB1B9EADE33A /* Sources */,
+				2B854F90489405FC58A4F32C /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04704DECD0A509E74374F207 /* PBXTargetDependency */,
+			);
+			name = PremiereProTimelineQuickLook;
+			packageProductDependencies = (
+			);
+			productName = PremiereProTimelineQuickLook;
+			productReference = AC96B68087C45D865339E3A2 /* PremiereProTimelineQuickLook.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B10BE69A83A6C206BE4293A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2AC3F478FA64717850687190 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					8180ADD99BCA2A891CF8ABF0 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 25315084D3863065593D3B35 /* Build configuration list for PBXProject "PremiereProTimelineQuickLook" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 67C7C615F5F1E28E60FAA749;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3565CE5970921009ED8B0DA8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8180ADD99BCA2A891CF8ABF0 /* PremiereProTimelineQuickLook */,
+				2AC3F478FA64717850687190 /* PremiereQuickLookExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A3DB75969F5FEB1B9EADE33A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				133CD202A5A951B6161013EE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4B31B072C89789A98CD6F85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				236859E4D7558EE9A867B039 /* HTMLGenerator.swift in Sources */,
+				8142081EE1941D5E9E327FFB /* Models.swift in Sources */,
+				7172A5D36DE02305AFC4A5D7 /* PreviewViewController.swift in Sources */,
+				36A94C7542230CCB6888145E /* ProjectParser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04704DECD0A509E74374F207 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2AC3F478FA64717850687190 /* PremiereQuickLookExtension */;
+			targetProxy = 80468CAC68BB1F5B58A2D02C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0F69800B5BAC36CA604E4300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PremiereQuickLookApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5B4E521E18C35181035F461E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = PremiereQuickLookExtension/PremiereQuickLookExtension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PremiereQuickLookExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook.Extension;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		92668DB70996CA5B4634FB11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = PremiereQuickLookExtension/PremiereQuickLookExtension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PremiereQuickLookExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook.Extension;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EEEDCEE0FB339DAEEC83A9E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		F3B7BD3690D2D5677E0E5448 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		FB398E11A911E841ADB45232 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PremiereQuickLookApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		25315084D3863065593D3B35 /* Build configuration list for PBXProject "PremiereProTimelineQuickLook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B7BD3690D2D5677E0E5448 /* Debug */,
+				EEEDCEE0FB339DAEEC83A9E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4B028A80EFFD05EFB8E32F84 /* Build configuration list for PBXNativeTarget "PremiereProTimelineQuickLook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB398E11A911E841ADB45232 /* Debug */,
+				0F69800B5BAC36CA604E4300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7EF161E645BA2DAF6B08BD87 /* Build configuration list for PBXNativeTarget "PremiereQuickLookExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92668DB70996CA5B4634FB11 /* Debug */,
+				5B4E521E18C35181035F461E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2B10BE69A83A6C206BE4293A /* Project object */;
+}

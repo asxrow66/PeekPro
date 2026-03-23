@@ -1,0 +1,76 @@
+name: PremiereProTimelineQuickLook
+
+options:
+  bundleIdPrefix: com.cullenroberts
+  deploymentTarget:
+    macOS: "12.0"
+  defaultConfig: Debug
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "12.0"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: NO
+    # REQUIRED: Set this to your Apple Developer Team ID.
+    # Find it at: Xcode → Settings → Accounts → select your Apple ID → Team ID column
+    # Or just open this project in Xcode and let it handle signing automatically.
+    DEVELOPMENT_TEAM: ""
+
+targets:
+
+  # ─── Host application ──────────────────────────────────────────────────────
+  PremiereProTimelineQuickLook:
+    type: application
+    platform: macOS
+    sources:
+      - path: PremiereQuickLookApp
+    info:
+      path: PremiereQuickLookApp/Info.plist
+      properties:
+        LSBackgroundOnly: YES
+        NSPrincipalClass: NSApplication
+        LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.cullenroberts.PremiereProTimelineQuickLook
+    dependencies:
+      - target: PremiereQuickLookExtension
+        embed: true
+        codeSign: true
+
+  # ─── Quick Look Preview Extension ──────────────────────────────────────────
+  PremiereQuickLookExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: PremiereQuickLookExtension
+        excludes:
+          - "*.plist"
+          - "*.entitlements"
+    info:
+      path: PremiereQuickLookExtension/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionAttributes:
+            QLSupportedContentTypes:
+              - com.adobe.premiere-pro.project
+            QLSupportsSearchableItems: NO
+          NSExtensionPointIdentifier: com.apple.quicklook.preview
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PreviewViewController
+        UTImportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - public.data
+              - public.content
+            UTTypeDescription: Adobe Premiere Pro Project
+            UTTypeIdentifier: com.adobe.premiere-pro.project
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - prproj
+    dependencies:
+      - sdk: WebKit.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.cullenroberts.PremiereProTimelineQuickLook.Extension
+        CODE_SIGN_ENTITLEMENTS: PremiereQuickLookExtension/PremiereQuickLookExtension.entitlements
+        OTHER_LDFLAGS: "-lz"
