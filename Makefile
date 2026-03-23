@@ -24,8 +24,8 @@ build: generate
 		build
 
 install: build
-	cp -Rf "$(BUILD_DIR)/Build/Products/Debug/PremiereProTimelineQuickLook.app" \
-	       "/Applications/PremiereProTimelineQuickLook.app"
+	cp -Rf "$(BUILD_DIR)/Build/Products/Debug/PeekPro.app" \
+	       "/Applications/PeekPro.app"
 	qlmanage -r && qlmanage -r cache
 
 reset-ql:

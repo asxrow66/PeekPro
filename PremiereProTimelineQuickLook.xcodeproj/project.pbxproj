@@ -232,6 +232,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook;
+				PRODUCT_NAME = PeekPro;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -406,6 +407,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cullenroberts.PremiereProTimelineQuickLook;
+				PRODUCT_NAME = PeekPro;
 				SDKROOT = macosx;
 			};
 			name = Debug;

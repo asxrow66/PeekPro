@@ -33,6 +33,7 @@ targets:
         LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
     settings:
       base:
+        PRODUCT_NAME: PeekPro
         PRODUCT_BUNDLE_IDENTIFIER: com.cullenroberts.PremiereProTimelineQuickLook
     dependencies:
       - target: PremiereQuickLookExtension

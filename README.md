@@ -52,7 +52,7 @@ Your Team ID is visible in **Xcode → Settings → Accounts → select your App
 
 ```bash
 # Register the extension and restart Quick Look
-pluginkit -a /Applications/PremiereProTimelineQuickLook.app/Contents/PlugIns/PremiereQuickLookExtension.appex
+pluginkit -a /Applications/PeekPro.app/Contents/PlugIns/PremiereQuickLookExtension.appex
 qlmanage -r
 ```
 

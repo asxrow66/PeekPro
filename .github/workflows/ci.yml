@@ -56,7 +56,7 @@ jobs:
       - name: Zip app
         run: |
           zip -r PeekPro.zip \
-            build/Build/Products/Release/PremiereProTimelineQuickLook.app
+            build/Build/Products/Release/PeekPro.app
 
       - name: Write release notes
         run: |
