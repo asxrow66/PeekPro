@@ -13,15 +13,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Compute next version
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          latest=$(gh release list --limit 1 --json tagName -q '.[0].tagName' 2>/dev/null || echo "v0.0.0")
+          version="${latest#v}"
+          major=$(echo "$version" | cut -d. -f1)
+          minor=$(echo "$version" | cut -d. -f2)
+          patch=$(echo "$version" | cut -d. -f3)
+          patch=$((patch + 1))
+          echo "tag=v${major}.${minor}.${patch}" >> $GITHUB_OUTPUT
+
       - name: Install xcodegen
         run: brew install xcodegen
 
       - name: Generate Xcode project
         run: xcodegen generate
-
-      - name: Set version tag
-        id: version
-        run: echo "tag=v$(date +'%Y.%m.%d.%H%M')" >> $GITHUB_OUTPUT
 
       - name: Build (unsigned)
         run: |
@@ -48,7 +57,7 @@ jobs:
             PeekPro.zip \
             --title "PeekPro ${{ steps.version.outputs.tag }}" \
             --notes "$(cat <<'EOF'
-          ## 🎬 PeekPro — Automated Release
+          ## 🎬 PeekPro — ${{ steps.version.outputs.tag }}
 
           Built from commit ${{ github.sha }}.
 
