@@ -18,13 +18,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          latest=$(gh release list --limit 1 --json tagName -q '.[0].tagName' 2>/dev/null || echo "v0.0.0")
+          # Find the latest tag that looks like a semver (vX.Y.Z)
+          latest=$(gh release list --limit 20 --json tagName \
+            -q '[.[] | select(.tagName | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))] | .[0].tagName' \
+            2>/dev/null)
+
+          if [ -z "$latest" ] || [ "$latest" = "null" ]; then
+            latest="v0.0.0"
+          fi
+
           version="${latest#v}"
           major=$(echo "$version" | cut -d. -f1)
           minor=$(echo "$version" | cut -d. -f2)
           patch=$(echo "$version" | cut -d. -f3)
-          patch=$((patch + 1))
-          echo "tag=v${major}.${minor}.${patch}" >> $GITHUB_OUTPUT
+          next="v${major}.${minor}.$((patch + 1))"
+          echo "tag=${next}" >> $GITHUB_OUTPUT
+          echo "Next version: ${next}"
 
       - name: Install xcodegen
         run: brew install xcodegen
@@ -49,6 +58,27 @@ jobs:
           zip -r PeekPro.zip \
             build/Build/Products/Release/PremiereProTimelineQuickLook.app
 
+      - name: Write release notes
+        run: |
+          cat > notes.md << EOF
+          ## 🎬 PeekPro ${{ steps.version.outputs.tag }}
+
+          Built from commit [\`${GITHUB_SHA::7}\`](https://github.com/asxrow66/PeekPro/commit/${GITHUB_SHA}).
+
+          > ⚠️ **This build is unsigned.** macOS Gatekeeper will block it.
+          > For a working install, [build from source](https://github.com/asxrow66/PeekPro#-build-from-source-recommended) with your own Apple Developer certificate.
+
+          ### 📦 What's included
+          - \`PeekPro.zip\` — compiled \`.app\` bundle (unsigned, for reference)
+
+          ### 🔧 Install from source
+          \`\`\`bash
+          git clone https://github.com/asxrow66/PeekPro.git
+          cd PeekPro
+          make install TEAM=<YourTeamID>
+          \`\`\`
+          EOF
+
       - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,22 +86,4 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             PeekPro.zip \
             --title "PeekPro ${{ steps.version.outputs.tag }}" \
-            --notes "$(cat <<'EOF'
-          ## 🎬 PeekPro — ${{ steps.version.outputs.tag }}
-
-          Built from commit ${{ github.sha }}.
-
-          > ⚠️ **Note:** This build is unsigned. macOS Gatekeeper will block it.
-          > For a working install, [build from source](https://github.com/asxrow66/PeekPro#-build-from-source-recommended) with your own Apple Developer certificate.
-
-          ### What's included
-          - `PeekPro.zip` — compiled `.app` bundle (unsigned, for reference)
-
-          ### Install from source
-          \`\`\`bash
-          git clone https://github.com/asxrow66/PeekPro.git
-          cd PeekPro
-          make install TEAM=<YourTeamID>
-          \`\`\`
-          EOF
-          )"
+            --notes-file notes.md
