@@ -1,16 +1,12 @@
-name: CI
+name: Release
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ created ]
 
 jobs:
-  build:
-    name: Build
+  release:
+    name: Build & Release
     runs-on: macos-latest
 
     steps:
@@ -23,6 +19,10 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      - name: Set version tag
+        id: version
+        run: echo "tag=v$(date +'%Y.%m.%d.%H%M')" >> $GITHUB_OUTPUT
+
       - name: Build (unsigned)
         run: |
           xcodebuild \
@@ -32,28 +32,37 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            -derivedDataPath build \
             build
 
-      - name: Archive build artifact
-        if: github.event_name == 'release'
+      - name: Zip app
         run: |
-          BUILD_DIR=$(xcodebuild \
-            -project PremiereProTimelineQuickLook.xcodeproj \
-            -scheme PremiereProTimelineQuickLook \
-            -configuration Release \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            -showBuildSettings | grep ' BUILT_PRODUCTS_DIR' | awk '{print $3}')
-          zip -r PeekPro.zip "$BUILD_DIR/PremiereProTimelineQuickLook.app"
+          zip -r PeekPro.zip \
+            build/Build/Products/Release/PremiereProTimelineQuickLook.app
 
-      - name: Upload release asset
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
+      - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./PeekPro.zip
-          asset_name: PeekPro.zip
-          asset_content_type: application/zip
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            PeekPro.zip \
+            --title "PeekPro ${{ steps.version.outputs.tag }}" \
+            --notes "$(cat <<'EOF'
+          ## 🎬 PeekPro — Automated Release
+
+          Built from commit ${{ github.sha }}.
+
+          > ⚠️ **Note:** This build is unsigned. macOS Gatekeeper will block it.
+          > For a working install, [build from source](https://github.com/asxrow66/PeekPro#-build-from-source-recommended) with your own Apple Developer certificate.
+
+          ### What's included
+          - `PeekPro.zip` — compiled `.app` bundle (unsigned, for reference)
+
+          ### Install from source
+          \`\`\`bash
+          git clone https://github.com/asxrow66/PeekPro.git
+          cd PeekPro
+          make install TEAM=<YourTeamID>
+          \`\`\`
+          EOF
+          )"
