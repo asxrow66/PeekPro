@@ -27,7 +27,7 @@ private final class RACT  { var itemRefs   = [Int]()    }   // AudioClipTrack
 private final class RItem { var start=0.0; var end=0.0; var subClipRef = -1 }
 private final class RSC   { var name = ""; var clipRef  = -1; var masterUID = "" }  // SubClip
 private final class RMaster { var sourceClipRef = -1 }  // MasterClip
-private final class RClip { var labelName = ""; var colorInt = -1 }  // VideoClip / AudioClip
+private final class RClip { var labelName = "" }  // VideoClip / AudioClip
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MARK: - Parser
@@ -58,7 +58,6 @@ final class ProjectParser: NSObject, XMLParserDelegate {
     private var scs          = [Int: RSC]()
     private var vclips       = [Int: RClip]()
     private var masters      = [String: RMaster]()
-    private var slotColorMap = [Int: Int]()       // slot id → colorInt from project-panel clips
 
     // ── Per-element current objects ──────────────────────────────────────────
 
@@ -262,9 +261,6 @@ final class ProjectParser: NSObject, XMLParserDelegate {
         case "asl.clip.label.name":
             if inVClipProps, let c = curClip { c.obj.labelName = t }
 
-        case "asl.clip.label.color":
-            if inVClipProps, let c = curClip, let v = Int(t) { c.obj.colorInt = v }
-
         // ── Close elements ────────────────────────────────────────────────────
 
         case "Sequence":
@@ -345,23 +341,7 @@ final class ProjectParser: NSObject, XMLParserDelegate {
     // ── Phase 2: build PremiereProject list ───────────────────────────────────
 
     private func buildAll() -> [PremiereProject] {
-        buildSlotColorMap()
-        return seqsOrdered.compactMap { buildProject($0) }
-    }
-
-    /// Populate slotColorMap from project-panel clips (MasterClip sources only).
-    /// These are the clips whose colorInt was set when the user labeled them in the
-    /// Project panel — giving us the "canonical" colorInt for each label slot.
-    private func buildSlotColorMap() {
-        for master in masters.values {
-            guard master.sourceClipRef >= 0,
-                  let clip = vclips[master.sourceClipRef],
-                  clip.colorInt > 0, !clip.labelName.isEmpty,
-                  let dot = clip.labelName.lastIndex(of: "."),
-                  let id  = Int(clip.labelName[clip.labelName.index(after: dot)...]),
-                  slotColorMap[id] == nil else { continue }
-            slotColorMap[id] = clip.colorInt
-        }
+        seqsOrdered.compactMap { buildProject($0) }
     }
 
     private func buildProject(_ seq: RSeq) -> PremiereProject? {
@@ -383,12 +363,12 @@ final class ProjectParser: NSObject, XMLParserDelegate {
                 guard let item = vitems[ref], item.end > item.start else { return nil }
                 let s = item.start / kTicksPerSec
                 let e = item.end   / kTicksPerSec
-                let sc       = scs[item.subClipRef]
-                let name     = sc?.name ?? ""
-                let (label, colorInt) = colorInfo(clipRef: sc?.clipRef ?? -1,
-                                                  masterUID: sc?.masterUID ?? "",
-                                                  fallback: .green)
-                return Clip(name: name, startTime: s, endTime: e, label: label, colorInt: colorInt)
+                let sc    = scs[item.subClipRef]
+                let name  = sc?.name ?? ""
+                let label = labelInfo(clipRef: sc?.clipRef ?? -1,
+                                      masterUID: sc?.masterUID ?? "",
+                                      fallback: .iris)
+                return Clip(name: name, startTime: s, endTime: e, label: label)
             }
             return clips.isEmpty ? nil : Track(name: "V\(i+1)", trackType: .video, clips: clips)
         }
@@ -402,53 +382,43 @@ final class ProjectParser: NSObject, XMLParserDelegate {
                 guard let item = aitems[ref], item.end > item.start else { return nil }
                 let s = item.start / kTicksPerSec
                 let e = item.end   / kTicksPerSec
-                let sc       = scs[item.subClipRef]
-                let name     = sc?.name ?? ""
-                let (label, colorInt) = colorInfo(clipRef: sc?.clipRef ?? -1,
-                                                  masterUID: sc?.masterUID ?? "",
-                                                  fallback: .cerulean)
-                return Clip(name: name, startTime: s, endTime: e, label: label, colorInt: colorInt)
+                let sc    = scs[item.subClipRef]
+                let name  = sc?.name ?? ""
+                let label = labelInfo(clipRef: sc?.clipRef ?? -1,
+                                      masterUID: sc?.masterUID ?? "",
+                                      fallback: .caribbean)
+                return Clip(name: name, startTime: s, endTime: e, label: label)
             }
             return clips.isEmpty ? nil : Track(name: "A\(i+1)", trackType: .audio, clips: clips)
         }
     }
 
-    /// Returns (label, colorInt) for a clip.
+    /// Resolves a clip's label. asl.clip.label.name ("BE.Prefs.LabelColors.N",
+    /// N = 0-based slot) is authoritative; the sibling asl.clip.label.color int is a
+    /// stale cache Premiere doesn't update on relabel, so it is ignored entirely.
     /// Resolution order:
     ///   1. Sequence-level VideoClip's label name (if set)
     ///   2. MasterClip's project-panel source (when sequence clip has no label)
-    ///   3. colorInt from slotColorMap — the canonical colorInt for this slot derived
-    ///      from project-panel clips. Avoids using stale inherited colorInts that are
-    ///      the same across clips with different slots (e.g. ColorTest Black Video clips).
-    ///   4. -1 → fillHex falls back to label's built-in default hex
-    private func colorInfo(clipRef: Int, masterUID: String, fallback: PremiereLabel) -> (PremiereLabel, Int) {
-        let c: RClip?
+    ///   3. fallback — Premiere's default label for the media type
+    private func labelInfo(clipRef: Int, masterUID: String, fallback: PremiereLabel) -> PremiereLabel {
         if clipRef >= 0, let seqClip = vclips[clipRef],
-           !seqClip.labelName.isEmpty || seqClip.colorInt > 0 {
-            c = seqClip
-        } else if !masterUID.isEmpty,
-                  let master = masters[masterUID], master.sourceClipRef >= 0 {
-            c = vclips[master.sourceClipRef]
-        } else {
-            c = nil
+           let label = labelFrom(seqClip) {
+            return label
         }
-        guard let clip = c else { return (fallback, -1) }
-
-        let label = labelFrom(clip, fallback: fallback)
-
-        if label != .none,
-           let dot = clip.labelName.lastIndex(of: "."),
-           let slotID = Int(clip.labelName[clip.labelName.index(after: dot)...]) {
-            return (label, slotColorMap[slotID] ?? -1)
+        if !masterUID.isEmpty,
+           let master = masters[masterUID], master.sourceClipRef >= 0,
+           let srcClip = vclips[master.sourceClipRef],
+           let label = labelFrom(srcClip) {
+            return label
         }
-        return (label, -1)
+        return fallback
     }
 
-    private func labelFrom(_ clip: RClip, fallback: PremiereLabel) -> PremiereLabel {
+    private func labelFrom(_ clip: RClip) -> PremiereLabel? {
         guard !clip.labelName.isEmpty,
               let dot = clip.labelName.lastIndex(of: "."),
               let id  = Int(clip.labelName[clip.labelName.index(after: dot)...]) else {
-            return fallback
+            return nil
         }
         return .from(id: id)
     }

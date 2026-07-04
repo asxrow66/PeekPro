@@ -21,71 +21,60 @@ enum PremiereLabel: String {
     case brown     = "Brown"
     case yellow    = "Yellow"
 
-    /// Fill colour hex (matches Premiere Pro default label colours, slots 1–16)
+    /// Fill colour hex — Premiere Pro default label colours, decoded from the
+    /// BGR ints Premiere stores in prefs as BE.Prefs.LabelColors.0–15
     var hex: String {
         switch self {
         case .none:      return "#72727a"
-        case .violet:    return "#8040ff"
-        case .iris:      return "#00e4ff"
-        case .caribbean: return "#3ea672"
-        case .lavender:  return "#cc66ff"
-        case .cerulean:  return "#0087be"
-        case .forest:    return "#669900"
-        case .rose:      return "#cc0066"
-        case .mango:     return "#e06a00"
-        case .purple:    return "#9900cc"
-        case .blue:      return "#0000ff"
-        case .teal:      return "#009999"
-        case .magenta:   return "#ff00ff"
-        case .tan:       return "#998266"
-        case .green:     return "#009900"
-        case .brown:     return "#996600"
-        case .yellow:    return "#999900"
+        case .violet:    return "#3e0aae"
+        case .iris:      return "#004b67"
+        case .caribbean: return "#2a5507"
+        case .lavender:  return "#751187"
+        case .cerulean:  return "#05555b"
+        case .forest:    return "#3d4a00"
+        case .rose:      return "#8c0235"
+        case .mango:     return "#893a04"
+        case .purple:    return "#6100b7"
+        case .blue:      return "#122d9a"
+        case .teal:      return "#014e45"
+        case .magenta:   return "#840d58"
+        case .tan:       return "#6f5a45"
+        case .green:     return "#0d5d27"
+        case .brown:     return "#5d3b06"
+        case .yellow:    return "#6f6619"
         }
     }
 
-    /// Inner-stroke colour (~35 % darker than fill)
+    /// Inner-stroke colour (~30 % lighter than fill so clip edges stay visible
+    /// against the dark fills)
     var strokeHex: String {
-        switch self {
-        case .none:      return "#4a4a4f"
-        case .violet:    return "#5329a5"
-        case .iris:      return "#0093a5"
-        case .caribbean: return "#286b4a"
-        case .lavender:  return "#8442a5"
-        case .cerulean:  return "#00577b"
-        case .forest:    return "#426300"
-        case .rose:      return "#840042"
-        case .mango:     return "#914500"
-        case .purple:    return "#630084"
-        case .blue:      return "#0000a5"
-        case .teal:      return "#006363"
-        case .magenta:   return "#a500a5"
-        case .tan:       return "#635442"
-        case .green:     return "#006300"
-        case .brown:     return "#634200"
-        case .yellow:    return "#636300"
-        }
+        guard hex.count == 7, let v = Int(hex.dropFirst(), radix: 16) else { return hex }
+        let scale: (Int) -> Int = { min(Int(Double($0) * 1.3) + 12, 255) }
+        let r = scale((v >> 16) & 0xFF)
+        let g = scale((v >>  8) & 0xFF)
+        let b = scale( v        & 0xFF)
+        return String(format: "#%02x%02x%02x", r, g, b)
     }
 
-    /// Maps BE.Prefs.LabelColors.N slot index (1–16) to a label
+    /// Maps BE.Prefs.LabelColors.N slot index (0–15) to a label
     static func from(id: Int) -> PremiereLabel {
         switch id {
-        case 1:  return .violet
-        case 2:  return .iris
-        case 3:  return .caribbean
-        case 4:  return .lavender
-        case 5:  return .cerulean
-        case 6:  return .forest
-        case 7:  return .rose
-        case 8:  return .mango
-        case 9:  return .purple
-        case 10: return .blue
-        case 11: return .teal
-        case 12: return .magenta
-        case 13: return .tan
-        case 14: return .green
-        case 15: return .brown
-        case 16: return .yellow
+        case 0:  return .violet
+        case 1:  return .iris
+        case 2:  return .caribbean
+        case 3:  return .lavender
+        case 4:  return .cerulean
+        case 5:  return .forest
+        case 6:  return .rose
+        case 7:  return .mango
+        case 8:  return .purple
+        case 9:  return .blue
+        case 10: return .teal
+        case 11: return .magenta
+        case 12: return .tan
+        case 13: return .green
+        case 14: return .brown
+        case 15: return .yellow
         default: return .none
         }
     }
@@ -122,26 +111,7 @@ struct Clip {
     var startTime: Double
     var endTime: Double
     var label: PremiereLabel
-    var colorInt: Int = -1       // asl.clip.label.color; stored as BGR integer (-1 = use label fallback)
     var duration: Double { max(endTime - startTime, 0) }
-
-    /// Fill hex — decoded from BGR colorInt when available, else label default
-    var fillHex: String {
-        guard colorInt > 0 else { return label.hex }
-        let b = (colorInt >> 16) & 0xFF
-        let g = (colorInt >>  8) & 0xFF
-        let r =  colorInt        & 0xFF
-        return String(format: "#%02x%02x%02x", r, g, b)
-    }
-
-    /// Stroke hex — 35% darker than fill
-    var strokeHex: String {
-        guard colorInt > 0 else { return label.strokeHex }
-        let b = Int(Double((colorInt >> 16) & 0xFF) * 0.65)
-        let g = Int(Double((colorInt >>  8) & 0xFF) * 0.65)
-        let r = Int(Double( colorInt        & 0xFF) * 0.65)
-        return String(format: "#%02x%02x%02x", r, g, b)
-    }
 }
 
 struct Track {

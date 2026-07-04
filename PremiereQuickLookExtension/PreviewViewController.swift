@@ -122,7 +122,7 @@ private final class TimelineView: NSView {
                     let cw = max(3, clip.duration * pps)
                     let cr = CGRect(x: cx, y: y + kClipPad, width: cw, height: kTrackH - kClipPad * 2)
                     drawClip(ctx: ctx, rect: cr, name: clip.name,
-                             fillHex: clip.fillHex, strokeHex: clip.strokeHex)
+                             fillHex: clip.label.hex, strokeHex: clip.label.strokeHex)
                 }
                 y += kTrackH
             }
